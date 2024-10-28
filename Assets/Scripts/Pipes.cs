@@ -50,7 +50,7 @@ public class Pipes : MonoBehaviour
         Source.PlacedPipe.Activate();
         foreach (var target in Targets)
         {
-            target.PlacedPipe.Deactivate();
+            target.PlacedPipe.Deactivate(true);
         }
     }
 
@@ -151,7 +151,7 @@ public class Pipes : MonoBehaviour
             foreach (var tile in gridRow.Row)
             {
                 tile.RecursionCounter = 0;
-                if (tile.PlacedPipe != null) tile.PlacedPipe.Deactivate();
+                if (tile.PlacedPipe != null) tile.PlacedPipe.Deactivate(false);
             }
         }
 
@@ -159,7 +159,7 @@ public class Pipes : MonoBehaviour
         foreach (var target in Targets)
         {
             target.RecursionCounter = 0;
-            target.PlacedPipe.Deactivate();
+            target.PlacedPipe.Deactivate(true);
         }
         
         CheckRec(Source);

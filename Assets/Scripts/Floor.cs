@@ -17,7 +17,7 @@ public class Floor : MonoBehaviour
         {
             var tile = Instantiate(FloorTilePrefab, FloorGrid);
             tile.transform.localPosition = new Vector3(i, 0, 0);
-            tile.Coords = new Vector2Int(i, 0);
+            tile.Coords = new Vector2Int(0, i);
             tile.name = "floor tile " + i;
             Tiles[i] = tile;
             if (i > 0)

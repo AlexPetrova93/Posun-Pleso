@@ -94,14 +94,14 @@ public class Pipe : MonoBehaviour
     public void ActivateSpecial()
     {
         Active = true;
-        SpriteRenderer.color = new Color(0.13f, 0.13f, 0.13f);
+        SpriteRenderer.color = new Color(0.45f, 0.52f, 0.47f);
         WaterSprite.color = new Color(0.02f, 0.93f, 0.82f);
     }
     
-    public void Deactivate()
+    public void Deactivate(bool special)
     {
         Active = false;
-        SpriteRenderer.color = Color.white;
+        SpriteRenderer.color = special ? new Color(0.45f, 0.52f, 0.47f) : new Color(0.13f, 0.13f, 0.13f);
         if (WaterSprite != null) WaterSprite.color = Color.clear; 
     }
 

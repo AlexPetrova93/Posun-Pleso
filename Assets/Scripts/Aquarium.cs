@@ -11,12 +11,15 @@ public class Aquarium : MonoBehaviour
     public GlassTile GlassTilePrefab;
     public GlassTile[] Tiles;
 
+    public Guy Guy;
+    
     public UnityEvent OnTankFull { get; } = new();
     
     private Pipes _pipes;
     private Camera _cam;
     
     private GlassTile _lastClicked;
+    private Queue<GlassTile> _crackedTiles = new ();
     
     private float _lastTickTime;
     
@@ -39,6 +42,23 @@ public class Aquarium : MonoBehaviour
             var diff = _pipes.WaterPressure - _numCracks;
             if (diff > 0) Fill(diff);
             else if (diff < 0) Empty(diff);
+            
+            // TODO leak outside !!
+            if (_lastTileFilled > AquariumSize.x * 2)
+            {
+                // crack random filled tile
+                var rnd = Random.Range(0, _lastTileFilled - 1);
+                Tiles[rnd].Crack();
+                Empty(1);
+            }
+        }
+
+        if (Guy.IsFixing) return;
+
+        if (_crackedTiles.Count > 0)
+        {
+            var nextCracked = _crackedTiles.Dequeue();
+            StartCoroutine(Guy.GoFix(nextCracked));
         }
     }
 
@@ -66,8 +86,6 @@ public class Aquarium : MonoBehaviour
         for (var i = _lastTileFilled; i < nextFilled; i--)
         {
             Tiles[i].Empty();
-            
-            // TODO leak outside !!
         }
         
         _lastTileFilled = nextFilled;
@@ -93,13 +111,19 @@ public class Aquarium : MonoBehaviour
             {
                 if (glass.Cracked && glass.IsInside(worldPos) && _lastClicked == glass)
                 {
-                    glass.Fix(); // TODO wait for anim
+                    QueueFix(glass);
                     break;
                 }
             }
 
             _lastClicked = null;
         }
+    }
+
+    private void QueueFix(GlassTile tile)
+    {
+        StartCoroutine(Guy.Acknowledge());
+        _crackedTiles.Enqueue(tile);
     }
     
     [ContextMenu("Build")]
@@ -113,7 +137,7 @@ public class Aquarium : MonoBehaviour
                 var tile = Instantiate(GlassTilePrefab, GlassGrid);
                 tile.transform.localPosition = new Vector3(j, i, 0);
                 tile.Coords = new Vector2Int(i, j);
-                tile.name = "glass tile " + i + ", " + j + ")";
+                tile.name = "glass tile (" + i + ", " + j + ")";
                 Tiles[i * AquariumSize.y + j] = tile;
             }
         }
