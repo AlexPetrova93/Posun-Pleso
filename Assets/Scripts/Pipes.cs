@@ -23,7 +23,7 @@ public class Pipes : MonoBehaviour
     public Tile TilePrefab;
 
     public Tile Source;
-    public Tile Target;
+    public Tile[] Targets;
 
     public TileRow[] GridRows;
 
@@ -34,6 +34,8 @@ public class Pipes : MonoBehaviour
     private Pipe _lastPipe;
 
     private int _lastPipeType;
+
+    public int WaterPressure;
 
     public void Init(Camera cam)
     {
@@ -46,7 +48,10 @@ public class Pipes : MonoBehaviour
             { PipeType.Three, ThreePrefab }
         };
         Source.PlacedPipe.Activate();
-        Target.PlacedPipe.Deactivate();
+        foreach (var target in Targets)
+        {
+            target.PlacedPipe.Deactivate();
+        }
     }
 
     public void RestartGame()
@@ -151,13 +156,23 @@ public class Pipes : MonoBehaviour
         }
 
         Source.RecursionCounter = 0;
-        Target.RecursionCounter = 0;
-        Target.PlacedPipe.Deactivate();
+        foreach (var target in Targets)
+        {
+            target.RecursionCounter = 0;
+            target.PlacedPipe.Deactivate();
+        }
         
         CheckRec(Source);
+
+        var pressure = 0;
+        foreach (var target in Targets)
+        {
+            if (target.PlacedPipe.Active) ++pressure;
+        }
+
+        WaterPressure = pressure;
     }
 
-    // only check east and north for now
     private void CheckRec(Tile cur)
     {
         if (cur.PlacedPipe == null || cur.RecursionCounter > GridSize.x * GridSize.y) return;
@@ -176,7 +191,7 @@ public class Pipes : MonoBehaviour
         if (cur.PlacedPipe.HasExit(direction) && nextTile != null && nextTile.PlacedPipe != null &&
             nextTile.PlacedPipe.HasExit(opDir))
         {
-            if (nextTile == Target) nextTile.PlacedPipe.ActivateSpecial();
+            if (nextTile.IsTarget) nextTile.PlacedPipe.ActivateSpecial();
             else nextTile.PlacedPipe.Activate();
             CheckRec(nextTile);
         }

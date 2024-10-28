@@ -14,6 +14,8 @@ public class Tile : MonoBehaviour
     
     public Pipe PlacedPipe;
 
+    public bool IsTarget;
+    
     public bool Selectable = true;
 
     public int RecursionCounter;

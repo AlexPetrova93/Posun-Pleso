@@ -5,12 +5,14 @@ public class GameManager : MonoBehaviour
 {
     public Camera Camera;
     public Pipes Pipes;
+    public Aquarium Aquarium;
     
     private bool _gameRunning;
 
     private void Start()
     {
         Pipes.Init(Camera);
+        Aquarium.Init(Pipes, Camera);
         StartGame();
     }
     
@@ -31,6 +33,9 @@ public class GameManager : MonoBehaviour
         
         var input = Utility.GetInput();
         Pipes.HandleInput(input);
+        
+        Aquarium.UpdateProgress();
+        Aquarium.HandleInput(input);
     }
 
     public void ToggleGamePaused()

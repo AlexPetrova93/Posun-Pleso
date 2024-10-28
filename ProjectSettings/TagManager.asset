@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Water
+    uniqueID: 2879081215
+    locked: 0
+  - name: Glass
+    uniqueID: 2266166939
+    locked: 0
+  - name: Pipe
+    uniqueID: 2231896955
+    locked: 0
+  - name: Guy
+    uniqueID: 1578578947
+    locked: 0
