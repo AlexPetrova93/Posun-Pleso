@@ -37,6 +37,8 @@ public class Pipes : MonoBehaviour
 
     public int WaterPressure;
 
+    //TODO pipe destroyer
+    
     public void Init(Camera cam)
     {
         _cam = cam;
@@ -56,7 +58,6 @@ public class Pipes : MonoBehaviour
 
     public void RestartGame()
     {
-        // TODO
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
@@ -123,27 +124,6 @@ public class Pipes : MonoBehaviour
         }
     }
 
-    private void CheckTile(Tile tile)
-    {
-        if (tile.PlacedPipe != null)
-        {
-            if (tile.PlacedPipe.Active)
-            {
-                
-            }
-            else
-            {
-                
-            }
-        }
-    }
-
-    private void FillFrom(Tile tile, Direction direction)
-    {
-        
-    }
-
-    private bool _chekedDebug;
     private void Check()
     {
         foreach (var gridRow in GridRows)

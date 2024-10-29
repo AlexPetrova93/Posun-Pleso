@@ -33,7 +33,6 @@ public class Guy : MonoBehaviour
     {
         IsFixing = true;
         var diff = glass.Coords.y - StandingOn.Coords.y;
-        Debug.Log("diff = " + diff);
         var step = Mathf.Sign(diff);
         SpriteRenderer.sprite = Walking;
         SpriteRenderer.flipX = step < 0;

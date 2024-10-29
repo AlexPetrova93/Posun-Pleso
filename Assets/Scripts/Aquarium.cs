@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,9 +10,11 @@ public class Aquarium : MonoBehaviour
     public GlassTile GlassTilePrefab;
     public GlassTile[] Tiles;
 
+    public LeakedWater LeakedWater;
     public Guy Guy;
     
     public UnityEvent OnTankFull { get; } = new();
+    public UnityEvent OnLeakedTooMuch { get; } = new();
     
     private Pipes _pipes;
     private Camera _cam;
@@ -51,6 +52,8 @@ public class Aquarium : MonoBehaviour
                 Tiles[rnd].Crack();
                 Empty(1);
             }
+            
+            if (LeakedWater.LeakedCounter > LeakedWater.GridSize.y * 2) OnLeakedTooMuch.Invoke();
         }
 
         if (Guy.IsFixing) return;
@@ -81,6 +84,7 @@ public class Aquarium : MonoBehaviour
 
     private void Empty(int times)
     {
+        LeakedWater.Leak(times);
         var nextFilled = _lastTileFilled - times;
         nextFilled = Mathf.Max(nextFilled, 0);
         for (var i = _lastTileFilled; i < nextFilled; i--)
