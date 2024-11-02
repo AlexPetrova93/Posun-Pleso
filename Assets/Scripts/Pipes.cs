@@ -28,6 +28,7 @@ public class Pipes : MonoBehaviour
 
     public TileRow[] GridRows;
 
+    private SoundManager _soundManager;
     private Camera _cam;
     private Tile _lastClicked;
     private Dictionary<PipeType, Pipe> _pipePrefabs;
@@ -40,8 +41,9 @@ public class Pipes : MonoBehaviour
 
     //TODO pipe destroyer
     
-    public void Init(Camera cam)
+    public void Init(SoundManager soundManager, Camera cam)
     {
+        _soundManager = soundManager;
         _cam = cam;
         _pipePrefabs = new Dictionary<PipeType, Pipe>()
         {
@@ -97,6 +99,7 @@ public class Pipes : MonoBehaviour
                     ++WaterPressure;
                     southTile.PlacedPipe.Activate();
                 }
+                _soundManager.PlaySound(AudioRef.PipePlaceTurn);
                 
                 yield return new WaitForSeconds(.15f);
             }
@@ -139,6 +142,7 @@ public class Pipes : MonoBehaviour
                         {
                             gridTile.PlacedPipe.Rotate();
                         }
+                        _soundManager.PlaySound(AudioRef.PipePlaceTurn);
 
                         Check();
 

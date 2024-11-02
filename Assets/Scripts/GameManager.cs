@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public SoundManager SoundManager;
     public Camera Camera;
     public Pipes Pipes;
     public Aquarium Aquarium;
@@ -24,7 +25,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Pipes.Init(Camera);
+        SoundManager.Init();
+        Pipes.Init(SoundManager, Camera);
         Aquarium.Init(Pipes, Camera);
         PauseMenu.SetActive(false);
         GameOverScreen.SetActive(false);
@@ -37,6 +39,7 @@ public class GameManager : MonoBehaviour
     
     public void StartGame()
     {
+        SoundManager.PlayMusic(AudioRef.Music);
         _gameRunning = true;
         Pipes.StartGame();
         Aquarium.OnTankFull.AddListener(GameWon);
@@ -77,6 +80,7 @@ public class GameManager : MonoBehaviour
     
     private void GameOver()
     {
+        SoundManager.PlaySound(AudioRef.GameOver);
         _gameRunning = false;
         GameOverScreen.SetActive(true);
     }
@@ -126,6 +130,7 @@ public class GameManager : MonoBehaviour
             Aquarium.OnLeakedTooMuch.RemoveAllListeners();
             Aquarium.OnLeakedAll.AddListener(GameKindOfWon);
             StartCoroutine(Pipes.FillAllWithPipes());
+            SoundManager.PlaySound(AudioRef.MoneyRulez);
             _cheatGameRunning = true;
         }
     }

@@ -751,6 +751,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 333510741c640af4bba3832025ab0d44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SoundManager: {fileID: 2083874632}
   Camera: {fileID: 73907896}
   Pipes: {fileID: 1409501727}
   Aquarium: {fileID: 136133533}
@@ -34772,6 +34773,60 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2083874631
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2083874633}
+  - component: {fileID: 2083874632}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2083874632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083874631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42659ba8eb14a604c80b2be9906af6a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MusicItems:
+  - AudioRef: 0
+    AudioClip: {fileID: 8300000, guid: 8b0b051efa514ca4080658db79a5e4d5, type: 3}
+  SfxItems:
+  - AudioRef: 1
+    AudioClip: {fileID: 8300000, guid: 65b4efcbba4390f4d94f8c027a1b7436, type: 3}
+  - AudioRef: 2
+    AudioClip: {fileID: 8300000, guid: d4f310b3323caac4bb874278effa24da, type: 3}
+  - AudioRef: 3
+    AudioClip: {fileID: 8300000, guid: 82050f41b2f9427499de221d5fa45d30, type: 3}
+--- !u!4 &2083874633
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083874631}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2084841321
 GameObject:
   m_ObjectHideFlags: 0
@@ -36307,6 +36362,7 @@ SceneRoots:
   - {fileID: 2031842746}
   - {fileID: 73907897}
   - {fileID: 14215528}
+  - {fileID: 2083874633}
   - {fileID: 1409501728}
   - {fileID: 1006222605}
   - {fileID: 136133534}
