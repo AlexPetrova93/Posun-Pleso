@@ -52,7 +52,7 @@ public class Pipes : MonoBehaviour
         Source.PlacedPipe.Activate();
         foreach (var target in Targets)
         {
-            target.PlacedPipe.Deactivate(true);
+            target.PlacedPipe.Deactivate();
         }
     }
 
@@ -131,7 +131,7 @@ public class Pipes : MonoBehaviour
             foreach (var tile in gridRow.Row)
             {
                 tile.RecursionCounter = 0;
-                if (tile.PlacedPipe != null) tile.PlacedPipe.Deactivate(false);
+                if (tile.PlacedPipe != null) tile.PlacedPipe.Deactivate();
             }
         }
 
@@ -139,7 +139,7 @@ public class Pipes : MonoBehaviour
         foreach (var target in Targets)
         {
             target.RecursionCounter = 0;
-            target.PlacedPipe.Deactivate(true);
+            target.PlacedPipe.Deactivate();
         }
         
         CheckRec(Source);
@@ -171,8 +171,7 @@ public class Pipes : MonoBehaviour
         if (cur.PlacedPipe.HasExit(direction) && nextTile != null && nextTile.PlacedPipe != null &&
             nextTile.PlacedPipe.HasExit(opDir))
         {
-            if (nextTile.IsTarget) nextTile.PlacedPipe.ActivateSpecial();
-            else nextTile.PlacedPipe.Activate();
+            nextTile.PlacedPipe.Activate();
             CheckRec(nextTile);
         }
     }

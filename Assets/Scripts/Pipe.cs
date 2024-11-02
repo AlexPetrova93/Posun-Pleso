@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public enum PipeType
@@ -64,12 +65,11 @@ public class Pipe : MonoBehaviour
     public PipeExits PipeExits;
     
     public bool Active { get; private set; }
-
-    public bool WasFilled;
     
     public void Init()
     {
         PipeExits.Init();
+        WaterSprite.color = new Color(1, 1, 1, 0);
     }
 
     // rotate CW
@@ -86,23 +86,15 @@ public class Pipe : MonoBehaviour
     public void Activate()
     {
         Active = true;
-        WasFilled = true;  // TODO for effects
-        SpriteRenderer.color = new Color(0f, 0.49f, 0.44f);
-        if (WaterSprite != null) WaterSprite.color = new Color(0.02f, 0.93f, 0.82f); // TODO changes with new assets - separate water and pipe sprite for each pipe
+        WaterSprite.DOKill();
+        WaterSprite.DOFade(1, .2f);
     }
     
-    public void ActivateSpecial()
-    {
-        Active = true;
-        SpriteRenderer.color = new Color(0.45f, 0.52f, 0.47f);
-        WaterSprite.color = new Color(0.02f, 0.93f, 0.82f);
-    }
-    
-    public void Deactivate(bool special)
+    public void Deactivate()
     {
         Active = false;
-        SpriteRenderer.color = special ? new Color(0.45f, 0.52f, 0.47f) : new Color(0.13f, 0.13f, 0.13f);
-        if (WaterSprite != null) WaterSprite.color = Color.clear; 
+        WaterSprite.DOKill();
+        WaterSprite.DOFade(0, .2f);
     }
 
     public bool HasExit(Direction direction)
