@@ -69,6 +69,7 @@ public class Pipe : MonoBehaviour
     public void Init()
     {
         PipeExits.Init();
+        Active = false;
         WaterSprite.color = new Color(1, 1, 1, 0);
     }
 

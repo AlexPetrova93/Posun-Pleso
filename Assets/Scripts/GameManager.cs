@@ -1,11 +1,17 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public Camera Camera;
     public Pipes Pipes;
     public Aquarium Aquarium;
+
+    public GameObject PauseMenu;
+    public GameObject GameOverScreen;
+    public GameObject GameWonScreen;
+    public GameObject GameKindOfWonScreen;
     
     private bool _gameRunning;
 
@@ -13,6 +19,11 @@ public class GameManager : MonoBehaviour
     {
         Pipes.Init(Camera);
         Aquarium.Init(Pipes, Camera);
+        PauseMenu.SetActive(false);
+        GameOverScreen.SetActive(false);
+        GameWonScreen.SetActive(false);
+        GameKindOfWonScreen.SetActive(false);
+        
         StartGame();
     }
     
@@ -20,6 +31,18 @@ public class GameManager : MonoBehaviour
     {
         _gameRunning = true;
         Pipes.StartGame();
+        Aquarium.OnTankFull.AddListener(GameWon);
+        Aquarium.OnLeakedTooMuch.AddListener(GameOver);
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void Update()
@@ -38,6 +61,24 @@ public class GameManager : MonoBehaviour
         Aquarium.HandleInput(input);
     }
 
+    private void GameOver()
+    {
+        _gameRunning = false;
+        GameOverScreen.SetActive(true);
+    }
+
+    private void GameWon()
+    {
+        _gameRunning = false;
+        GameWonScreen.SetActive(true);
+    }
+
+    private void GameKindOfWon()
+    {
+        _gameRunning = false;
+        GameKindOfWonScreen.SetActive(true);
+    }
+
     public void ToggleGamePaused()
     {
         if (_gameRunning) PauseGame();
@@ -46,11 +87,13 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
+        PauseMenu.SetActive(true);
         _gameRunning = false;
     }
 
     public void UnPauseGame()
     {
+        PauseMenu.SetActive(false);
         _gameRunning = true;
     }
 

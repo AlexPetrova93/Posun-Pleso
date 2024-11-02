@@ -52,13 +52,8 @@ public class Pipes : MonoBehaviour
         Source.PlacedPipe.Activate();
         foreach (var target in Targets)
         {
-            target.PlacedPipe.Deactivate();
+            target.PlacedPipe.Init();
         }
-    }
-
-    public void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
     public void StartGame()
