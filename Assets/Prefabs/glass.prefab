@@ -159,7 +159,7 @@ SpriteRenderer:
   m_SortingLayerID: -2028800357
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: df627791c1947764c9773695284eee05, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -167,7 +167,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &126909065150748964
@@ -184,8 +184,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpriteRenderer: {fileID: 8173752485520604555}
   WaterSpriteRenderer: {fileID: 1874332596228567475}
-  DefaultSprite: {fileID: 21300000, guid: df627791c1947764c9773695284eee05, type: 3}
-  CrackedSprite: {fileID: 21300000, guid: 76eb4582c2e49864f8e7533414f2c961, type: 3}
+  CrackedSprite: {fileID: 21300000, guid: 1406035236e250f4ea4629e90456d985, type: 3}
+  CrackedLeakingSprite: {fileID: 21300000, guid: 6017f3507f00519438c0233356803a11, type: 3}
+  FixedSprite: {fileID: 21300000, guid: 9062e2a280ca0b24487fc99037f3e89a, type: 3}
   Coords: {x: 0, y: 0}
   Cracked: 0
+  Fixed: 0
   Filled: 0
