@@ -3343,6 +3343,7 @@ MonoBehaviour:
   - {fileID: 955373344}
   LeakedWater: {fileID: 1998598640}
   Guy: {fileID: 2021863292}
+  CrackFrequency: 5
 --- !u!4 &136133534
 Transform:
   m_ObjectHideFlags: 0
@@ -13335,7 +13336,7 @@ Transform:
   m_GameObject: {fileID: 675446122}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.75, y: -6.5, z: 0}
+  m_LocalPosition: {x: -5.75, y: -7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -33254,7 +33255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GridSize: {x: 7, y: 18}
-  WaterTile: {fileID: 5021846457604459345, guid: 246df8410d2079e46b283bde77a5de61, type: 3}
+  WaterTile: {fileID: 3069494332728186132, guid: 246df8410d2079e46b283bde77a5de61, type: 3}
   LeakedCounter: 0
 --- !u!4 &1998598641
 Transform:
@@ -33265,7 +33266,7 @@ Transform:
   m_GameObject: {fileID: 1998598639}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.75, y: -6.5, z: 0}
+  m_LocalPosition: {x: -5.75, y: -7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

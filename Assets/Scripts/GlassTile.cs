@@ -20,19 +20,23 @@ public class GlassTile : MonoBehaviour
         return SpriteRenderer.bounds.Contains(pos);
     }
 
-    public void Fill()
+    public void Fill(float time, float delay)
     {
         Filled = true;
-        if (Cracked) SpriteRenderer.sprite = CrackedLeakingSprite;
         WaterSpriteRenderer.DOKill();
-        WaterSpriteRenderer.DOFade(1, .5f);
+        WaterSpriteRenderer.DOFade(1, time).SetDelay(delay).OnComplete(() =>
+        {
+            if (Cracked) SpriteRenderer.sprite = CrackedLeakingSprite;
+        });
     }
 
-    public void Empty()
+    public void Empty(float time, float delay)
     {
         WaterSpriteRenderer.DOKill();
-        WaterSpriteRenderer.DOFade(0, .5f);
-        if (Cracked) SpriteRenderer.sprite = CrackedSprite;
+        WaterSpriteRenderer.DOFade(0, time).SetDelay(delay).OnComplete(() =>
+        {
+            if (Cracked) SpriteRenderer.sprite = CrackedSprite;
+        });
         Filled = false;
     }
     

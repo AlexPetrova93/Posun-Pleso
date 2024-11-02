@@ -29,7 +29,7 @@ public class Guy : MonoBehaviour
         AcknowledgeObj.SetActive(false);
     }
     
-    public IEnumerator GoFix(GlassTile glass)
+    public IEnumerator GoFix(GlassTile glass, UnityAction onFixed)
     {
         IsFixing = true;
         var diff = glass.Coords.y - StandingOn.Coords.y;
@@ -46,6 +46,7 @@ public class Guy : MonoBehaviour
         SpriteRenderer.sprite = Fixing;
         yield return new WaitForSeconds(FixTime);
         glass.Fix();
+        onFixed.Invoke();
         SpriteRenderer.sprite = Standing;
         IsFixing = false;
     }

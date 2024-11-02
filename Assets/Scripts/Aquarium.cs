@@ -12,6 +12,8 @@ public class Aquarium : MonoBehaviour
 
     public LeakedWater LeakedWater;
     public Guy Guy;
+
+    public int CrackFrequency = 5;
     
     public UnityEvent OnTankFull { get; } = new();
     public UnityEvent OnWaterRanOut { get; } = new();
@@ -25,11 +27,12 @@ public class Aquarium : MonoBehaviour
     private Queue<GlassTile> _toFixTiles = new ();
     
     private float _lastTickTime;
+    private float _lastCrackTime;
     
     private int _lastTileFilled;
     private int _numCracks;
 
-    private const float TickLength = 2;
+    public static float TickLength = 2;
 
     private int _totalWaterUnits;
     private int _currentWaterUnitsTotal;
@@ -49,6 +52,7 @@ public class Aquarium : MonoBehaviour
     {
         _totalWaterUnits = 999999;
         _leakedThreshold = 999999;
+        TickLength = 1;
     }
 
     public void UpdateProgress()
@@ -57,8 +61,26 @@ public class Aquarium : MonoBehaviour
         {
             _lastTickTime = Time.time;
             
+            // If water from more then 1 pipe -> crack
+            if (_pipes.WaterPressure > 1 && _lastTileFilled > 0 && Time.time - _lastCrackTime > TickLength * CrackFrequency)
+            {
+                _lastCrackTime = Time.time;
+                var numNewCracks = _pipes.WaterPressure - 1;
+                // crack random filled tiles
+                for (var i = 0; i < numNewCracks; i++)
+                {
+                    var rnd = Random.Range(0, _lastTileFilled - 1);
+
+                    if (Tiles[rnd].Cracked) continue;
+                    
+                    Tiles[rnd].Crack();
+                    ++_numCracks;
+                }
+            }
+            
             var diff = _pipes.WaterPressure - _numCracks;
-            if (_currentWaterUnitsTotal < _totalWaterUnits && diff > 0)
+            
+            if (diff > 0 && _currentWaterUnitsTotal < _totalWaterUnits)
             {
                 // End of water reached?
                 if (_currentWaterUnitsTotal + diff > _totalWaterUnits)  
@@ -68,11 +90,15 @@ public class Aquarium : MonoBehaviour
                 _currentWaterUnitsInAquarium += diff;
                 Fill(diff);
             }
-            else if (diff < 0)
+            if (diff < 0)
             {
-                _currentWaterUnitsInAquarium -= diff;
-                Empty(diff);
-                LeakedWater.Leak(diff);
+                _currentWaterUnitsInAquarium += diff;
+                Empty(-diff);
+            }
+
+            if (_numCracks > 0)
+            {
+                LeakedWater.Leak(_numCracks);
             }
             
             if (_currentWaterUnitsTotal <= _totalWaterUnits)
@@ -84,20 +110,6 @@ public class Aquarium : MonoBehaviour
                 OnWaterRanOut.Invoke();
             }
             
-            // If water from more then 1 pipe -> crack
-            if (_pipes.WaterPressure > 1)
-            {
-                var numNewCracks = _pipes.WaterPressure - 1;
-                // crack random filled tiles
-                for (var i = 0; i < numNewCracks; i++)
-                {
-                    var rnd = Random.Range(0, _lastTileFilled - 1);
-                    Tiles[rnd].Crack();
-                }
-                Empty(numNewCracks);
-                LeakedWater.Leak(diff);
-            }
-            
             if (LeakedWater.LeakedCounter > _leakedThreshold) OnLeakedTooMuch.Invoke();
             if (LeakedWater.LeakedCounter > LeakedWater.GridSize.x * LeakedWater.GridSize.y) OnLeakedAll.Invoke();
         }
@@ -107,7 +119,7 @@ public class Aquarium : MonoBehaviour
         if (_toFixTiles.Count > 0)
         {
             var nextCracked = _toFixTiles.Dequeue();
-            StartCoroutine(Guy.GoFix(nextCracked));
+            StartCoroutine(Guy.GoFix(nextCracked, () => --_numCracks));
         }
     }
 
@@ -119,10 +131,12 @@ public class Aquarium : MonoBehaviour
             OnTankFull.Invoke();
         }
 
+        var timeStep = TickLength / times - .0999f;
+        timeStep = Mathf.Min(timeStep, .3f);
         nextFilled = Mathf.Min(nextFilled, Tiles.Length);
         for (var i = _lastTileFilled; i < nextFilled; i++)
         {
-            Tiles[i].Fill();
+            Tiles[i].Fill(timeStep, timeStep*i);
         }
 
         _lastTileFilled = nextFilled;
@@ -130,11 +144,14 @@ public class Aquarium : MonoBehaviour
 
     private void Empty(int times)
     {
+        var timeStep = TickLength / times - .0999f;
+        timeStep = Mathf.Min(timeStep, .3f);
         var nextFilled = _lastTileFilled - times;
         nextFilled = Mathf.Max(nextFilled, 0);
-        for (var i = _lastTileFilled; i < nextFilled; i--)
+        Debug.Log("emptying: _lastTileFilled = " +_lastTileFilled+", nextFilled = " + nextFilled);
+        for (var i = _lastTileFilled; i >= nextFilled; i--)
         {
-            Tiles[i].Empty();
+            Tiles[i].Empty(timeStep, timeStep*i);
         }
         
         _lastTileFilled = nextFilled;

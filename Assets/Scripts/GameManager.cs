@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -88,6 +89,12 @@ public class GameManager : MonoBehaviour
 
     private void GameKindOfWon()
     {
+        StartCoroutine(GameKindOfWonRoutine());
+    }
+
+    private IEnumerator GameKindOfWonRoutine()
+    {
+        yield return new WaitForSeconds(1.5f);
         _gameRunning = false;
         _cheatGameRunning = false;
         GameKindOfWonScreen.SetActive(true);
