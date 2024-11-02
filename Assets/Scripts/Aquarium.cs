@@ -16,6 +16,7 @@ public class Aquarium : MonoBehaviour
     public UnityEvent OnTankFull { get; } = new();
     public UnityEvent OnWaterRanOut { get; } = new();
     public UnityEvent OnLeakedTooMuch { get; } = new();
+    public UnityEvent OnLeakedAll { get; } = new();
     
     private Pipes _pipes;
     private Camera _cam;
@@ -34,11 +35,20 @@ public class Aquarium : MonoBehaviour
     private int _currentWaterUnitsTotal;
     private int _currentWaterUnitsInAquarium;
 
+    private int _leakedThreshold;
+
     public void Init(Pipes pipes, Camera cam)
     {
         _totalWaterUnits = AquariumSize.x * AquariumSize.y + LeakedWater.GridSize.x;
+        _leakedThreshold = LeakedWater.GridSize.y * 2;
         _pipes = pipes;
         _cam = cam;
+    }
+
+    public void SetUnlimitedWater()
+    {
+        _totalWaterUnits = 999999;
+        _leakedThreshold = 999999;
     }
 
     public void UpdateProgress()
@@ -88,7 +98,8 @@ public class Aquarium : MonoBehaviour
                 LeakedWater.Leak(diff);
             }
             
-            if (LeakedWater.LeakedCounter > LeakedWater.GridSize.y * 2) OnLeakedTooMuch.Invoke();
+            if (LeakedWater.LeakedCounter > _leakedThreshold) OnLeakedTooMuch.Invoke();
+            if (LeakedWater.LeakedCounter > LeakedWater.GridSize.x * LeakedWater.GridSize.y) OnLeakedAll.Invoke();
         }
 
         if (Guy.IsFixing) return;

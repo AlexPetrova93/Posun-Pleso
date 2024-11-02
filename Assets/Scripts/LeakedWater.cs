@@ -10,9 +10,11 @@ public class LeakedWater : MonoBehaviour
 
     public void Leak(int times)
     {
-        LeakedCounter += times;
         for (var i = 0; i < times; i++)
         {
+            ++LeakedCounter;
+            if (LeakedCounter > GridSize.x * GridSize.y) break;
+            
             var water = Instantiate(WaterTile, transform);
             water.transform.localPosition = new Vector3(_lastCoords.x, _lastCoords.y, 0);
             ++_lastCoords.x;

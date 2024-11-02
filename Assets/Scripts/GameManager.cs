@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,12 +9,17 @@ public class GameManager : MonoBehaviour
     public Pipes Pipes;
     public Aquarium Aquarium;
 
+    public GameObject PauseButton;
+    public GameObject CheatButton;
+    
     public GameObject PauseMenu;
     public GameObject GameOverScreen;
     public GameObject GameWonScreen;
     public GameObject GameKindOfWonScreen;
+    public GameObject CheatScreen;
     
     private bool _gameRunning;
+    private bool _cheatGameRunning;
 
     private void Start()
     {
@@ -23,6 +29,7 @@ public class GameManager : MonoBehaviour
         GameOverScreen.SetActive(false);
         GameWonScreen.SetActive(false);
         GameKindOfWonScreen.SetActive(false);
+        CheatScreen.SetActive(false);
         
         StartGame();
     }
@@ -47,6 +54,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        if (_cheatGameRunning)
+        {
+            Aquarium.UpdateProgress();
+            return;
+        }
+        
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             ToggleGamePaused();
@@ -60,7 +73,7 @@ public class GameManager : MonoBehaviour
         Aquarium.UpdateProgress();
         Aquarium.HandleInput(input);
     }
-
+    
     private void GameOver()
     {
         _gameRunning = false;
@@ -76,9 +89,40 @@ public class GameManager : MonoBehaviour
     private void GameKindOfWon()
     {
         _gameRunning = false;
+        _cheatGameRunning = false;
         GameKindOfWonScreen.SetActive(true);
     }
 
+    public void ShowCheatScreen()
+    {
+        _gameRunning = false;
+        CheatScreen.SetActive(true);
+    }
+
+    public void HideCheatScreen()
+    {
+        _gameRunning = true;
+        CheatScreen.SetActive(false);
+    }
+
+    public void CheckCheatCode(TMP_InputField inputField)
+    {
+        if (inputField.text.Equals("MoneyRulez999", StringComparison.InvariantCultureIgnoreCase))
+        {
+            inputField.text = "";
+            CheatScreen.SetActive(false);
+            PauseButton.SetActive(false);
+            CheatButton.SetActive(false);
+            _gameRunning = false;
+            Aquarium.SetUnlimitedWater();
+            Aquarium.OnTankFull.RemoveAllListeners();
+            Aquarium.OnLeakedTooMuch.RemoveAllListeners();
+            Aquarium.OnLeakedAll.AddListener(GameKindOfWon);
+            StartCoroutine(Pipes.FillAllWithPipes());
+            _cheatGameRunning = true;
+        }
+    }
+    
     public void ToggleGamePaused()
     {
         if (_gameRunning) PauseGame();

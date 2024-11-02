@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -61,6 +62,7 @@ public class Pipes : MonoBehaviour
         SpawnNewPipe();
     }
 
+    // TODO spawn random + only have a certain amount of each type - just a shuffled array of all the entire available stack of pipes
     private void SpawnNewPipe()
     {
         var prefab = _pipePrefabs[(PipeType)_lastPipeType];
@@ -69,6 +71,36 @@ public class Pipes : MonoBehaviour
 
         ++_lastPipeType;
         _lastPipeType %= 4;
+    }
+
+    public IEnumerator FillAllWithPipes()
+    {
+        foreach (var gridRow in GridRows)
+        {
+            foreach (var gridTile in gridRow.Row)
+            {
+                if (gridTile.PlacedPipe != null)
+                {
+                    Destroy(gridTile.PlacedPipe.gameObject);
+                }
+                var newPipe = _pipePrefabs[PipeType.Cross];
+                newPipe = Instantiate(newPipe, gridTile.transform.position, Quaternion.identity, transform);
+                newPipe.Init();
+                newPipe.transform.SetParent(gridTile.transform);
+                newPipe.transform.localPosition = Vector3.zero;
+                gridTile.PlacedPipe = newPipe;
+                gridTile.PlacedPipe.Activate();
+                
+                var southTile = gridTile.GetTileIn(Direction.S);
+                if (southTile != null && southTile.IsTarget)
+                {
+                    ++WaterPressure;
+                    southTile.PlacedPipe.Activate();
+                }
+                
+                yield return new WaitForSeconds(.15f);
+            }
+        }
     }
 
     public void HandleInput(InputStruct input)
