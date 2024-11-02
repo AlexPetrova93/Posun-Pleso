@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,7 +13,8 @@ public class GameManager : MonoBehaviour
     public Aquarium Aquarium;
 
     public GameObject PauseButton;
-    public GameObject CheatButton;
+    public RectTransform CheatButton;
+    public RectTransform CheatInput;
     
     public GameObject PauseMenu;
     public GameObject GameOverScreen;
@@ -23,6 +25,8 @@ public class GameManager : MonoBehaviour
     private bool _gameRunning;
     private bool _cheatGameRunning;
 
+    private float _cheatBtnX;
+
     private void Start()
     {
         SoundManager.Init();
@@ -32,7 +36,9 @@ public class GameManager : MonoBehaviour
         GameOverScreen.SetActive(false);
         GameWonScreen.SetActive(false);
         GameKindOfWonScreen.SetActive(false);
-        CheatScreen.SetActive(false);
+        CheatInput.localScale = new Vector3(0, 1, 1);
+        _cheatBtnX = CheatButton.anchoredPosition.x;
+        CheatButton.anchoredPosition = Vector2.zero;
         
         StartGame();
     }
@@ -104,26 +110,42 @@ public class GameManager : MonoBehaviour
         GameKindOfWonScreen.SetActive(true);
     }
 
-    public void ShowCheatScreen()
+    private bool _cheatFieldVisible;
+
+    public void ToggleCheatWindow()
     {
-        _gameRunning = false;
-        CheatScreen.SetActive(true);
+        if (!_gameRunning) return;
+        if (_cheatFieldVisible) HideCheatWindow();
+        else ShowCheatWindow();
     }
 
-    public void HideCheatScreen()
+    private void ShowCheatWindow()
     {
-        _gameRunning = true;
-        CheatScreen.SetActive(false);
+        _cheatFieldVisible = true;
+        CheatInput.DOKill();
+        CheatInput.DOScaleX(1, .3f);
+        CheatButton.DOKill();
+        CheatButton.DOAnchorPosX(_cheatBtnX, .3f);
+    }
+
+    private void HideCheatWindow()
+    {
+        _cheatFieldVisible = false;
+        CheatInput.DOKill();
+        CheatInput.DOScaleX(0, .3f);
+        CheatButton.DOKill();
+        CheatButton.DOAnchorPosX(0, .3f);
     }
 
     public void CheckCheatCode(TMP_InputField inputField)
     {
+        if (!_gameRunning) return;
         if (inputField.text.Equals("MoneyRulez999", StringComparison.InvariantCultureIgnoreCase))
         {
             inputField.text = "";
             CheatScreen.SetActive(false);
             PauseButton.SetActive(false);
-            CheatButton.SetActive(false);
+            CheatScreen.SetActive(false);
             _gameRunning = false;
             Aquarium.SetUnlimitedWater();
             Aquarium.OnTankFull.RemoveAllListeners();

@@ -23,7 +23,7 @@ public class LeakedWater : MonoBehaviour
             var col = water.color;
             col.a = 0;
             water.color = col;
-            water.DOFade(1, timeStep).SetDelay(i * timeStep);
+            water.DOFade(.75f, timeStep).SetDelay(i * timeStep);
             ++_lastCoords.x;
             if (_lastCoords.x >= GridSize.y)
             {

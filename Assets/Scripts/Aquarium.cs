@@ -14,6 +14,7 @@ public class Aquarium : MonoBehaviour
     public Tarn Tarn;
     public LeakedWater LeakedWater;
     public Guy Guy;
+    public AnimatedMorena[] Morenas;
 
     public int CrackFrequency = 5;
     
@@ -147,6 +148,10 @@ public class Aquarium : MonoBehaviour
         {
             StartCoroutine(InvokeFullAfterTime(totalDelay));
         }
+        foreach (var morena in Morenas)
+        {
+            if (morena.RequiredTile <= _lastTileFilled) morena.Appear();
+        }
     }
 
     private IEnumerator InvokeFullAfterTime(float time)
@@ -160,6 +165,7 @@ public class Aquarium : MonoBehaviour
         var timeStep = TickLength / times - .0999f;
         timeStep = Mathf.Min(timeStep, .3f);
         var nextFilled = _lastTileFilled - times;
+        nextFilled = Mathf.Max(0, nextFilled);
         var j = 0;
         for (var i = _lastTileFilled; i >= nextFilled; i--)
         {
@@ -168,6 +174,10 @@ public class Aquarium : MonoBehaviour
         }
         
         _lastTileFilled = nextFilled;
+        foreach (var morena in Morenas)
+        {
+            if (morena.RequiredTile > _lastTileFilled) morena.Disappear();
+        }
     }
     
     public void HandleInput(InputStruct input)

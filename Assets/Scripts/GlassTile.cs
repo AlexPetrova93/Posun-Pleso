@@ -24,7 +24,7 @@ public class GlassTile : MonoBehaviour
     {
         Filled = true;
         WaterSpriteRenderer.DOKill();
-        WaterSpriteRenderer.DOFade(1, time).SetDelay(delay).OnComplete(() =>
+        WaterSpriteRenderer.DOFade(.55f, time).SetDelay(delay).OnComplete(() =>
         {
             if (Cracked) SpriteRenderer.sprite = CrackedLeakingSprite;
         });
