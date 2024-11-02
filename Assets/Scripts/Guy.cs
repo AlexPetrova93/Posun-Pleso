@@ -32,7 +32,7 @@ public class Guy : MonoBehaviour
     public IEnumerator GoFix(GlassTile glass, UnityAction onFixed)
     {
         IsFixing = true;
-        var diff = glass.Coords.y - StandingOn.Coords.y;
+        var diff = glass.Coords.y - StandingOn.Coords.y + 2;
         var step = Mathf.Sign(diff);
         SpriteRenderer.sprite = Walking;
         SpriteRenderer.flipX = step < 0;

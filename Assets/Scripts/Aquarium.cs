@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,6 +11,7 @@ public class Aquarium : MonoBehaviour
     public GlassTile GlassTilePrefab;
     public GlassTile[] Tiles;
 
+    public Tarn Tarn;
     public LeakedWater LeakedWater;
     public Guy Guy;
 
@@ -37,12 +39,14 @@ public class Aquarium : MonoBehaviour
     private int _totalWaterUnits;
     private int _currentWaterUnitsTotal;
     private int _currentWaterUnitsInAquarium;
+    private float _totalWaterSafe;
 
     private int _leakedThreshold;
 
     public void Init(Pipes pipes, Camera cam)
     {
         _totalWaterUnits = AquariumSize.x * AquariumSize.y + LeakedWater.GridSize.x;
+        _totalWaterSafe = _totalWaterUnits;
         _leakedThreshold = LeakedWater.GridSize.y * 2;
         _pipes = pipes;
         _cam = cam;
@@ -60,6 +64,8 @@ public class Aquarium : MonoBehaviour
         if (Time.time - _lastTickTime > TickLength)
         {
             _lastTickTime = Time.time;
+            
+            Tarn.Empty(_pipes.WaterPressure/_totalWaterSafe);
             
             // If water from more then 1 pipe -> crack
             if (_pipes.WaterPressure > 1 && _lastTileFilled > 0 && Time.time - _lastCrackTime > TickLength * CrackFrequency)
@@ -126,20 +132,27 @@ public class Aquarium : MonoBehaviour
     private void Fill(int times)
     {
         var nextFilled = _lastTileFilled + times;
-        if (nextFilled >= Tiles.Length)
-        {
-            OnTankFull.Invoke();
-        }
 
         var timeStep = TickLength / times - .0999f;
         timeStep = Mathf.Min(timeStep, .3f);
         nextFilled = Mathf.Min(nextFilled, Tiles.Length);
+        var totalDelay = (nextFilled - _lastTileFilled) * timeStep + timeStep;
         for (var i = _lastTileFilled; i < nextFilled; i++)
         {
-            Tiles[i].Fill(timeStep, timeStep*i);
+            Tiles[i].Fill(timeStep, timeStep*(i-_lastTileFilled));
         }
 
         _lastTileFilled = nextFilled;
+        if (_lastTileFilled >= Tiles.Length)
+        {
+            StartCoroutine(InvokeFullAfterTime(totalDelay));
+        }
+    }
+
+    private IEnumerator InvokeFullAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        OnTankFull.Invoke();
     }
 
     private void Empty(int times)
@@ -147,11 +160,11 @@ public class Aquarium : MonoBehaviour
         var timeStep = TickLength / times - .0999f;
         timeStep = Mathf.Min(timeStep, .3f);
         var nextFilled = _lastTileFilled - times;
-        nextFilled = Mathf.Max(nextFilled, 0);
-        Debug.Log("emptying: _lastTileFilled = " +_lastTileFilled+", nextFilled = " + nextFilled);
+        var j = 0;
         for (var i = _lastTileFilled; i >= nextFilled; i--)
         {
-            Tiles[i].Empty(timeStep, timeStep*i);
+            Tiles[i].Empty(timeStep, timeStep*j);
+            ++j;
         }
         
         _lastTileFilled = nextFilled;
