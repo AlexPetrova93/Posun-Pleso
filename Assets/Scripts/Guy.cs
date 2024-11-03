@@ -1,15 +1,16 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Guy : MonoBehaviour
 {
-    public SpriteRenderer SpriteRenderer;
+    //public SpriteRenderer SpriteRenderer;
     public GameObject AcknowledgeObj;
 
-    public Sprite Standing;
-    public Sprite Walking;
-    public Sprite Fixing;
+    public AnimatedSprite Standing;
+    public AnimatedSprite Walking;
+    public AnimatedSprite Fixing;
 
     public FloorTile StandingOn;
     
@@ -32,10 +33,10 @@ public class Guy : MonoBehaviour
     public IEnumerator GoFix(GlassTile glass, UnityAction onFixed)
     {
         IsFixing = true;
-        var diff = glass.Coords.y - StandingOn.Coords.y + 2;
+        var diff = glass.Coords.x - StandingOn.Coords.y + 2;
         var step = Mathf.Sign(diff);
-        SpriteRenderer.sprite = Walking;
-        SpriteRenderer.flipX = step < 0;
+        PlayAnim(Walking);
+        Walking.SpriteRenderer.flipX = step > 0;
         for (var i = 0; i < Mathf.Abs(diff); i++)
         {
             yield return new WaitForSeconds(StepTime);
@@ -43,11 +44,19 @@ public class Guy : MonoBehaviour
             transform.position = nextTile.transform.position + Vector3.up;
             StandingOn = nextTile;
         }
-        SpriteRenderer.sprite = Fixing;
+        PlayAnim(Fixing);
         yield return new WaitForSeconds(FixTime);
         glass.Fix();
         onFixed.Invoke();
-        SpriteRenderer.sprite = Standing;
+        PlayAnim(Standing);
         IsFixing = false;
+    }
+
+    private void PlayAnim(AnimatedSprite anim)
+    {
+        Standing.gameObject.SetActive(anim == Standing);
+        Walking.gameObject.SetActive(anim == Walking);
+        Fixing.gameObject.SetActive(anim == Fixing);
+        anim.PlayFromStart();
     }
 }

@@ -9,6 +9,13 @@ public class AnimatedSprite : MonoBehaviour
 
     private float _lastFrameTime;
     private int _lastFrameIdx;
+
+    public void PlayFromStart()
+    {
+        gameObject.SetActive(true);
+        _lastFrameIdx = 0;
+        _lastFrameTime = -555;
+    }
     
     private void Update()
     {
