@@ -7,6 +7,7 @@ public class Tarn : MonoBehaviour
     public float MinY;
 
     private float _scale;
+    private bool _reachedBottom;
     
     private void Start()
     {
@@ -15,7 +16,16 @@ public class Tarn : MonoBehaviour
 
     public void Empty(float step)
     {
+        if (_reachedBottom) return;
+        
+        var newPos = Mask.position.y - step * _scale;
+        if (newPos < MinY)
+        {
+            _reachedBottom = true;
+            newPos = MinY;
+        }
+        
         Mask.DOKill();
-        Mask.DOMoveY(Mask.position.y - step * _scale, .3f);
+        Mask.DOMoveY(newPos, .3f);
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 public class GlassTile : MonoBehaviour
 {
     public SpriteRenderer SpriteRenderer;
-    public SpriteRenderer WaterSpriteRenderer;
+    public WaterTile WaterTile;
     public Sprite CrackedSprite;
     public Sprite CrackedLeakingSprite;
     public Sprite FixedSprite;
@@ -20,24 +20,26 @@ public class GlassTile : MonoBehaviour
         return SpriteRenderer.bounds.Contains(pos);
     }
 
-    public void Fill(float time, float delay)
+    public void Fill()
     {
+        if (Cracked) SpriteRenderer.sprite = CrackedLeakingSprite;
         Filled = true;
-        WaterSpriteRenderer.DOKill();
+        /*WaterSpriteRenderer.DOKill();
         WaterSpriteRenderer.DOFade(.55f, time).SetDelay(delay).OnComplete(() =>
         {
             if (Cracked) SpriteRenderer.sprite = CrackedLeakingSprite;
-        });
+        });*/
     }
 
-    public void Empty(float time, float delay)
+    public void Empty()
     {
-        WaterSpriteRenderer.DOKill();
+        if (Cracked) SpriteRenderer.sprite = CrackedSprite;
+        Filled = false;
+        /*WaterSpriteRenderer.DOKill();
         WaterSpriteRenderer.DOFade(0, time).SetDelay(delay).OnComplete(() =>
         {
             if (Cracked) SpriteRenderer.sprite = CrackedSprite;
-        });
-        Filled = false;
+        });*/
     }
     
     public void Crack()

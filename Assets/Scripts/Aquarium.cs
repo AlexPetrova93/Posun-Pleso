@@ -46,6 +46,7 @@ public class Aquarium : MonoBehaviour
 
     public void Init(Pipes pipes, Camera cam)
     {
+        LeakedWater.Init();
         _totalWaterUnits = AquariumSize.x * AquariumSize.y + LeakedWater.GridSize.x;
         _totalWaterSafe = _totalWaterUnits;
         _leakedThreshold = LeakedWater.GridSize.y * 2;
@@ -95,12 +96,12 @@ public class Aquarium : MonoBehaviour
                     diff = _totalWaterUnits - _currentWaterUnitsTotal;
                 }
                 _currentWaterUnitsInAquarium += diff;
-                Fill(diff);
+                StartCoroutine(Fill(diff));
             }
             if (diff < 0)
             {
                 _currentWaterUnitsInAquarium += diff;
-                Empty(-diff);
+                StartCoroutine(Empty(-diff));
             }
 
             if (_numCracks > 0)
@@ -117,8 +118,8 @@ public class Aquarium : MonoBehaviour
                 OnWaterRanOut.Invoke();
             }
             
-            if (LeakedWater.LeakedCounter > _leakedThreshold) OnLeakedTooMuch.Invoke();
-            if (LeakedWater.LeakedCounter > LeakedWater.GridSize.x * LeakedWater.GridSize.y) OnLeakedAll.Invoke();
+            if (LeakedWater.LeakedCounter >= _leakedThreshold) OnLeakedTooMuch.Invoke();
+            if (LeakedWater.LeakedCounter >= LeakedWater.GridSize.x * LeakedWater.GridSize.y) OnLeakedAll.Invoke();
         }
 
         if (Guy.IsFixing) return;
@@ -130,7 +131,7 @@ public class Aquarium : MonoBehaviour
         }
     }
 
-    private void Fill(int times)
+    private IEnumerator Fill(int times)
     {
         var nextFilled = _lastTileFilled + times;
 
@@ -140,7 +141,21 @@ public class Aquarium : MonoBehaviour
         var totalDelay = (nextFilled - _lastTileFilled) * timeStep + timeStep;
         for (var i = _lastTileFilled; i < nextFilled; i++)
         {
-            Tiles[i].Fill(timeStep, timeStep*(i-_lastTileFilled));
+            var tile = Tiles[i];
+            tile.Fill();
+            tile.WaterTile.FadeIn(timeStep);
+            if (tile.Coords.x < AquariumSize.y - 1) tile.WaterTile.FadeIn(timeStep);
+            else tile.WaterTile.FilledNext(timeStep);
+
+            if (tile.Coords.x > 0)
+            {
+                Tiles[tile.Coords.y * AquariumSize.y + (tile.Coords.x - 1)].WaterTile.FilledNext(timeStep);
+            }
+            if (tile.Coords.y > 0)
+            {
+                Tiles[(tile.Coords.y - 1) * AquariumSize.y + tile.Coords.x].WaterTile.FilledTop(timeStep);
+            }
+            yield return new WaitForSeconds(timeStep);
         }
 
         _lastTileFilled = nextFilled;
@@ -160,7 +175,7 @@ public class Aquarium : MonoBehaviour
         OnTankFull.Invoke();
     }
 
-    private void Empty(int times)
+    private IEnumerator Empty(int times)
     {
         var timeStep = TickLength / times - .0999f;
         timeStep = Mathf.Min(timeStep, .3f);
@@ -169,7 +184,20 @@ public class Aquarium : MonoBehaviour
         var j = 0;
         for (var i = _lastTileFilled; i >= nextFilled; i--)
         {
-            Tiles[i].Empty(timeStep, timeStep*j);
+            var tile = Tiles[i];
+            tile.Empty();
+            tile.WaterTile.FadeOut(timeStep);
+
+            if (tile.Coords.x > 0)
+            {
+                Tiles[tile.Coords.y * AquariumSize.y + (tile.Coords.x - 1)].WaterTile.EmptiedNext(timeStep);
+            }
+            if (tile.Coords.y > 0)
+            {
+                Tiles[(tile.Coords.y - 1) * AquariumSize.y + tile.Coords.x].WaterTile.EmptiedTop(timeStep);
+            }
+            
+            yield return new WaitForSeconds(timeStep);
             ++j;
         }
         
@@ -225,7 +253,7 @@ public class Aquarium : MonoBehaviour
             {
                 var tile = Instantiate(GlassTilePrefab, GlassGrid);
                 tile.transform.localPosition = new Vector3(j, i, 0);
-                tile.Coords = new Vector2Int(i, j);
+                tile.Coords = new Vector2Int(j, i);
                 tile.name = "glass tile (" + i + ", " + j + ")";
                 Tiles[i * AquariumSize.y + j] = tile;
             }
