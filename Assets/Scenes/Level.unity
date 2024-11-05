@@ -994,6 +994,7 @@ MonoBehaviour:
   PauseMenu: {fileID: 2062957662}
   GameOverScreen: {fileID: 1272767502}
   GameWonScreen: {fileID: 1487227296}
+  GameSuperWonScreen: {fileID: 1733307198}
   GameKindOfWonScreen: {fileID: 90327}
   CheatScreen: {fileID: 281054304}
 --- !u!1001 &14390896
@@ -44734,6 +44735,129 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 2
   m_SpriteSortPoint: 0
+--- !u!1001 &1733307196
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2031842746}
+    m_Modifications:
+    - target: {fileID: 1351344462883720727, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_text
+      value: "Super-v\xFDhra!"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386899572394471192, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 14215529}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 440.0224
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 303.1303
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6347857234562407604, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_Name
+      value: SuperWin
+      objectReference: {fileID: 0}
+    - target: {fileID: 6354770003653637027, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 14215529}
+    - target: {fileID: 7946165164972526469, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+--- !u!224 &1733307197 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4457018528774709937, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+  m_PrefabInstance: {fileID: 1733307196}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1733307198 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6347857234562407604, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+  m_PrefabInstance: {fileID: 1733307196}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1733407689
 GameObject:
   m_ObjectHideFlags: 0
@@ -52472,6 +52596,7 @@ RectTransform:
   - {fileID: 1405396520}
   - {fileID: 1272767503}
   - {fileID: 1487227295}
+  - {fileID: 1733307197}
   - {fileID: 90326}
   - {fileID: 2062957661}
   - {fileID: 281054305}

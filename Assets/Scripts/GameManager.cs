@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public GameObject PauseMenu;
     public GameObject GameOverScreen;
     public GameObject GameWonScreen;
+    public GameObject GameSuperWonScreen;
     public GameObject GameKindOfWonScreen;
     public GameObject CheatScreen;
     
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
         PauseMenu.SetActive(false);
         GameOverScreen.SetActive(false);
         GameWonScreen.SetActive(false);
+        GameSuperWonScreen.SetActive(false);
         GameKindOfWonScreen.SetActive(false);
         CheatInput.localScale = new Vector3(0, 1, 1);
         _cheatBtnX = CheatButton.anchoredPosition.x;
@@ -96,7 +98,9 @@ public class GameManager : MonoBehaviour
     {
         SoundManager.PlaySound(AudioRef.Win);
         _gameRunning = false;
-        GameWonScreen.SetActive(true);
+
+        if (Aquarium.CrackedAtLeastOnce) GameWonScreen.SetActive(true);
+        else GameSuperWonScreen.SetActive(true);
     }
 
     private void GameKindOfWon()

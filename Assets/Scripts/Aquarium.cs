@@ -47,6 +47,8 @@ public class Aquarium : MonoBehaviour
 
     private int _lastWaterPressure;
 
+    public bool CrackedAtLeastOnce { get; private set; }
+
     public void Init(SoundManager soundManager, Pipes pipes, Camera cam)
     {
         _soundManager = soundManager;
@@ -83,6 +85,7 @@ public class Aquarium : MonoBehaviour
             // If water from more then 1 pipe -> crack
             if (_pipes.WaterPressure > 1 && _lastTileFilled > 0 && Time.time - _lastCrackTime > TickLength * CrackFrequency)
             {
+                CrackedAtLeastOnce = true;
                 _lastCrackTime = Time.time;
                 var numNewCracks = _pipes.WaterPressure - 1;
                 // crack random filled tiles
