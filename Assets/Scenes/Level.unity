@@ -227,6 +227,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 14215529}
+    - target: {fileID: 7946165164972526469, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3995,8 +3999,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ffa5e60efdf103749939517ea43b5804, type: 2}
+  m_sharedMaterial: {fileID: 261166673426542632, guid: ffa5e60efdf103749939517ea43b5804, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9890,7 +9894,7 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
-  m_GlobalFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_GlobalFontAsset: {fileID: 11400000, guid: ffa5e60efdf103749939517ea43b5804, type: 2}
   m_OnFocusSelectAll: 1
   m_ResetOnDeActivation: 1
   m_RestoreOriginalTextOnEscape: 1
@@ -20546,7 +20550,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6716351176682304350, guid: 15138da6c0944a845a3cf144fb6759ae, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 250
+      value: 300
       objectReference: {fileID: 0}
     - target: {fileID: 6716351176682304350, guid: 15138da6c0944a845a3cf144fb6759ae, type: 3}
       propertyPath: m_SizeDelta.y
@@ -38005,6 +38009,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 14215529}
+    - target: {fileID: 7946165164972526469, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -44276,8 +44284,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Zadej k\xF3d..."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: ffa5e60efdf103749939517ea43b5804, type: 2}
+  m_sharedMaterial: {fileID: 261166673426542632, guid: ffa5e60efdf103749939517ea43b5804, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -53556,6 +53564,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 14215529}
+    - target: {fileID: 7946165164972526469, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 8747364325641806581, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
       propertyPath: m_Type
       value: 2
@@ -54455,6 +54467,8 @@ MonoBehaviour:
   MusicItems:
   - AudioRef: 0
     AudioClip: {fileID: 8300000, guid: 8b0b051efa514ca4080658db79a5e4d5, type: 3}
+  - AudioRef: 5
+    AudioClip: {fileID: 8300000, guid: f63c6d56a6596564d91465eee69b8c3a, type: 3}
   SfxItems:
   - AudioRef: 1
     AudioClip: {fileID: 8300000, guid: 65b4efcbba4390f4d94f8c027a1b7436, type: 3}
@@ -54462,6 +54476,28 @@ MonoBehaviour:
     AudioClip: {fileID: 8300000, guid: d4f310b3323caac4bb874278effa24da, type: 3}
   - AudioRef: 3
     AudioClip: {fileID: 8300000, guid: 82050f41b2f9427499de221d5fa45d30, type: 3}
+  - AudioRef: 8
+    AudioClip: {fileID: 8300000, guid: 9d446f579aca5154f99877d0f2644b17, type: 3}
+  SfxVariationItems:
+  - AudioRef: 4
+    AudioClips:
+    - {fileID: 8300000, guid: c9acb6a91f71cb64ba164b580f95d155, type: 3}
+    - {fileID: 8300000, guid: 562a62ff001aed64a9130b98ce290f87, type: 3}
+    - {fileID: 8300000, guid: a6fab80feaa76b548b9c4725cf3fdf65, type: 3}
+    LastIdx: 0
+  - AudioRef: 6
+    AudioClips:
+    - {fileID: 8300000, guid: e1bc354c4ce22c74cbef05e3eae82e31, type: 3}
+    - {fileID: 8300000, guid: 9f3ff5e453cb3c64c90b3bd4fca809c5, type: 3}
+    - {fileID: 8300000, guid: 9d3bda3fd9c30b24d850872b638064cd, type: 3}
+    LastIdx: 0
+  - AudioRef: 7
+    AudioClips:
+    - {fileID: 8300000, guid: 53f10f81ba54a564caa1ace837bd6647, type: 3}
+    - {fileID: 8300000, guid: d45e02dd10a564f4c946dfa7b21ff2da, type: 3}
+    - {fileID: 8300000, guid: 42faebe351157f84ba4651b901f212f0, type: 3}
+    - {fileID: 8300000, guid: f762ca2079bbad246bdbe696ded02070, type: 3}
+    LastIdx: 0
 --- !u!4 &2083874633
 Transform:
   m_ObjectHideFlags: 0
@@ -56544,6 +56580,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 14215529}
+    - target: {fileID: 7946165164972526469, guid: 27922fcf59e97eb40ba147aaa8f2a57b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 200
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

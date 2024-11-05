@@ -23,6 +23,7 @@ public class Aquarium : MonoBehaviour
     public UnityEvent OnLeakedTooMuch { get; } = new();
     public UnityEvent OnLeakedAll { get; } = new();
     
+    private SoundManager _soundManager;
     private Pipes _pipes;
     private Camera _cam;
     
@@ -44,8 +45,11 @@ public class Aquarium : MonoBehaviour
 
     private int _leakedThreshold;
 
-    public void Init(Pipes pipes, Camera cam)
+    private int _lastWaterPressure;
+
+    public void Init(SoundManager soundManager, Pipes pipes, Camera cam)
     {
+        _soundManager = soundManager;
         LeakedWater.Init();
         _totalWaterUnits = AquariumSize.x * AquariumSize.y + LeakedWater.GridSize.x;
         _totalWaterSafe = _totalWaterUnits;
@@ -69,6 +73,13 @@ public class Aquarium : MonoBehaviour
             
             Tarn.Empty(_pipes.WaterPressure/_totalWaterSafe);
             
+            // sound
+            if (_lastWaterPressure != _pipes.WaterPressure)
+            {
+                if (_pipes.WaterPressure > 0) _soundManager.PlayMusicAtVolume(AudioRef.Bubbles, (float)_pipes.WaterPressure/_pipes.MaxWaterPressure);
+                else _soundManager.PauseMusic(AudioRef.Bubbles);
+            }
+            
             // If water from more then 1 pipe -> crack
             if (_pipes.WaterPressure > 1 && _lastTileFilled > 0 && Time.time - _lastCrackTime > TickLength * CrackFrequency)
             {
@@ -81,6 +92,7 @@ public class Aquarium : MonoBehaviour
 
                     if (Tiles[rnd].Cracked) continue;
                     
+                    _soundManager.PlaySound(AudioRef.GlassCrack);
                     Tiles[rnd].Crack();
                     ++_numCracks;
                 }
@@ -120,6 +132,8 @@ public class Aquarium : MonoBehaviour
             
             if (LeakedWater.LeakedCounter >= _leakedThreshold) OnLeakedTooMuch.Invoke();
             if (LeakedWater.LeakedCounter >= LeakedWater.GridSize.x * LeakedWater.GridSize.y) OnLeakedAll.Invoke();
+
+            _lastWaterPressure = _pipes.WaterPressure;
         }
 
         if (Guy.IsFixing) return;

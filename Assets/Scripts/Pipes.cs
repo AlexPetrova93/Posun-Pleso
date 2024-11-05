@@ -38,6 +38,7 @@ public class Pipes : MonoBehaviour
     private int _lastPipeType;
 
     public int WaterPressure;
+    public int MaxWaterPressure => Targets.Length;
 
     //TODO pipe destroyer
     

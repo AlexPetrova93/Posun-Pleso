@@ -31,7 +31,8 @@ public class GameManager : MonoBehaviour
     {
         SoundManager.Init();
         Pipes.Init(SoundManager, Camera);
-        Aquarium.Init(Pipes, Camera);
+        Aquarium.Init(SoundManager, Pipes, Camera);
+        Aquarium.Guy.Init(SoundManager);
         PauseMenu.SetActive(false);
         GameOverScreen.SetActive(false);
         GameWonScreen.SetActive(false);
@@ -93,6 +94,7 @@ public class GameManager : MonoBehaviour
 
     private void GameWon()
     {
+        SoundManager.PlaySound(AudioRef.Win);
         _gameRunning = false;
         GameWonScreen.SetActive(true);
     }
@@ -147,6 +149,7 @@ public class GameManager : MonoBehaviour
             PauseButton.SetActive(false);
             CheatScreen.SetActive(false);
             _gameRunning = false;
+            StartCoroutine(Aquarium.Guy.Leave());
             Aquarium.SetUnlimitedWater();
             Aquarium.OnTankFull.RemoveAllListeners();
             Aquarium.OnLeakedTooMuch.RemoveAllListeners();

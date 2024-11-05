@@ -13,12 +13,19 @@ public class Guy : MonoBehaviour
     public AnimatedSprite Fixing;
 
     public FloorTile StandingOn;
+
+    private SoundManager _soundManager;
     
     private const float StepTime = .3f;
     private const float FixTime = 2;
 
     public bool IsFixing;
 
+    public void Init(SoundManager soundManager)
+    {
+        _soundManager = soundManager;
+    }
+    
     public IEnumerator Acknowledge()
     {
         AcknowledgeObj.SetActive(true);
@@ -44,12 +51,24 @@ public class Guy : MonoBehaviour
             transform.position = nextTile.transform.position + Vector3.up;
             StandingOn = nextTile;
         }
+        _soundManager.PlaySound(AudioRef.Fixing);
         PlayAnim(Fixing);
         yield return new WaitForSeconds(FixTime);
         glass.Fix();
         onFixed.Invoke();
         PlayAnim(Standing);
         IsFixing = false;
+    }
+
+    public IEnumerator Leave()
+    {
+        PlayAnim(Walking);
+        Walking.SpriteRenderer.flipX = true;
+        for (var i = 0; i < 22; i++)
+        {
+            yield return new WaitForSeconds(StepTime);
+            transform.position += Vector3.right;
+        }
     }
 
     private void PlayAnim(AnimatedSprite anim)
